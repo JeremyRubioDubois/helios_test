@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:helios_test/models/user_model.dart';
-import 'package:helios_test/services/user_services.dart';
+
+import '../../models/user_model.dart';
+import '../../services/user_services.dart';
 
 abstract class UserListDelegate {
   void refreshView();
@@ -8,34 +9,69 @@ abstract class UserListDelegate {
 
 class UserListPresenter {
   UserListDelegate? delegate;
+  final _userService = UserService();
 
   List<User> users = [];
+  final TextEditingController searchController = TextEditingController();
+  List<User> filteredUsers = [];
+  bool isLoading = false;
+  bool _hasMore = true;
   int _currentPage = 1;
-  bool _isLoading = false;
 
   UserListPresenter();
 
-  void init() async {
-    await fetchUsers();
-    delegate?.refreshView();
+  void init() {
+    fetchUsers();
   }
 
   void dispose() {}
 
   Future<void> fetchUsers() async {
-    if (_isLoading) return;
-    _isLoading = true;
+    if (isLoading || !_hasMore) return;
+
+    isLoading = true;
+    delegate?.refreshView();
 
     try {
-      final newUsers = await UserService().fetchUsers(page: _currentPage);
-      users.addAll(newUsers);
-      _currentPage++;
-    } catch (e) {
-      print('Erreur lors du chargement des utilisateurs: $e');
+      final newUsers = await _userService.fetchUsers(page: _currentPage);
+
+      if (newUsers.isEmpty) {
+        _hasMore = false;
+      } else {
+        users.addAll(newUsers);
+        filteredUsers = users;
+        _currentPage++;
+      }
+    } catch (_) {
+      // gestion d’erreur
     } finally {
-      _isLoading = false;
+      isLoading = false;
       delegate?.refreshView();
     }
+  }
+
+  void search(String query) {
+    filteredUsers =
+        users
+            .where(
+              (user) =>
+                  user.fullName.toLowerCase().contains(query.toLowerCase()),
+            )
+            .toList();
+    delegate?.refreshView();
+  }
+
+  void clearSearch() {
+    filteredUsers = users;
+    delegate?.refreshView();
+  }
+
+  void onScrollEnd() async {
+    await fetchUsers();
+  }
+
+  void goToUserAlgoPage({required BuildContext context}) {
+    Navigator.pushNamed(context, '/algo');
   }
 
   void goToUserDetailPage({required BuildContext context, required User user}) {

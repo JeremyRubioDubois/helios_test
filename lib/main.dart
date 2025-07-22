@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:helios_test/pages/algo/algo_page.dart';
+import 'package:helios_test/pages/algo/algo_presenter.dart';
 import 'package:helios_test/pages/user_detail/user_detail_page.dart';
 import 'package:helios_test/pages/user_detail/user_detail_presenter.dart';
 import 'package:helios_test/pages/user_list/user_list_page.dart';
@@ -31,6 +33,7 @@ class HeliosTestApp extends StatelessWidget {
             presenter: UserDetailPresenter(user: args['user']),
           );
         },
+        '/algo': (context) => AlgoPage(presenter: AlgoPresenter()),
       },
     );
   }

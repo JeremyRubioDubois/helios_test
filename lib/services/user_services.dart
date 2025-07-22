@@ -7,8 +7,9 @@ class UserService {
   static const int _resultsPerPage = 20;
 
   Future<List<User>> fetchUsers({int page = 1}) async {
+    await Future.delayed(const Duration(milliseconds: 500));
     final uri = Uri.parse(
-      '$_baseUrl?results=$_resultsPerPage&page=$page&seed=helios',
+      '$_baseUrl?results=$_resultsPerPage&page=$page&seed=heliosTest',
     );
 
     final response = await http.get(uri);

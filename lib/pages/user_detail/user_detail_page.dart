@@ -15,7 +15,6 @@ class _UserDetailPageState extends State<UserDetailPage>
   @override
   void initState() {
     super.initState();
-    widget.presenter.delegate = this;
     widget.presenter.init();
   }
 
@@ -27,9 +26,12 @@ class _UserDetailPageState extends State<UserDetailPage>
 
   @override
   Widget build(BuildContext context) {
+    widget.presenter.delegate = this;
+
     return Scaffold(
       appBar: AppBar(title: Text(widget.presenter.user.fullName)),
-      body: Padding(
+      body: Container(
+        alignment: Alignment.center,
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
@@ -37,10 +39,17 @@ class _UserDetailPageState extends State<UserDetailPage>
               radius: 50,
               backgroundImage: NetworkImage(widget.presenter.user.pictureUrl),
             ),
-            const SizedBox(height: 20),
             Text(
               widget.presenter.user.fullName,
               style: const TextStyle(fontSize: 22),
+            ),
+            Text(
+              widget.presenter.user.email,
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+            Text(
+              'Phone: ${widget.presenter.user.phone}',
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
           ],
         ),
