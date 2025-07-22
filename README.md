@@ -1,16 +1,10 @@
-# helios_test
+# Helios Test
 
-A new Flutter project.
+Ce projet Flutter a été réalisé dans le cadre d’un test technique pour Helios.
 
-## Getting Started
+## 📱 Objectif
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Afficher une liste paginée d'utilisateurs avec photo, nom complet et accès au détail.
+- Intégrer une barre de recherche par nom.
+- Implémenter un algorithme d’optimisation d’emballage (problème XspeedIt).
+- Afficher les résultats d’optimisation dans une page dédiée.
